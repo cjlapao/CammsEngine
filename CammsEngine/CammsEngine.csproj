@@ -107,5 +107,11 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ITTech24Tools\ITTech24Tools.csproj">
+      <Project>{24fd035b-6672-4549-a5b4-177679260712}</Project>
+      <Name>ITTech24Tools</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

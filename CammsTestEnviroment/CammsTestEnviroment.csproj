@@ -83,6 +83,10 @@
       <Project>{a5ad9c66-073b-485f-88b9-8102c3ea775f}</Project>
       <Name>CammsEngine</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ITTech24Tools\ITTech24Tools.csproj">
+      <Project>{24fd035b-6672-4549-a5b4-177679260712}</Project>
+      <Name>ITTech24Tools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
