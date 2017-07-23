@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="cammsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblStockMovementType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="bit" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblFuel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SuplierID" Type="int" Nullable="false" />
+          <Property Name="UnitID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="CostPerUnit" Type="real" Nullable="false" />
+          <Property Name="StockControlled" Type="bit" Nullable="false" />
+          <Property Name="ActualStock" Type="int" Nullable="false" />
+          <Property Name="OrderedStock" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblFuelStock">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FuelID" Type="int" Nullable="false" />
+          <Property Name="MoveID" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="UnitValue" Type="real" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="MovementDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblFuelUnits">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Fuel_FuelUnits">
+          <End Role="tblFuelUnits" Type="Self.tblFuelUnits" Multiplicity="1" />
+          <End Role="tblFuel" Type="Self.tblFuel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblFuelUnits">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblFuel">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fuel_Stock_Fuel_Stock">
+          <End Role="tblStockMovementType" Type="Self.tblStockMovementType" Multiplicity="1" />
+          <End Role="tblFuelStock" Type="Self.tblFuelStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblStockMovementType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblFuelStock">
+              <PropertyRef Name="MoveID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="cammsModelStoreContainer">
+          <EntitySet Name="tblStockMovementType" EntityType="Self.tblStockMovementType" Schema="gen" store:Type="Tables" />
+          <EntitySet Name="tblFuel" EntityType="Self.tblFuel" Schema="prod" store:Type="Tables" />
+          <EntitySet Name="tblFuelStock" EntityType="Self.tblFuelStock" Schema="prod" store:Type="Tables" />
+          <EntitySet Name="tblFuelUnits" EntityType="Self.tblFuelUnits" Schema="prod" store:Type="Tables" />
+          <AssociationSet Name="FK_Fuel_FuelUnits" Association="Self.FK_Fuel_FuelUnits">
+            <End Role="tblFuelUnits" EntitySet="tblFuelUnits" />
+            <End Role="tblFuel" EntitySet="tblFuel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fuel_Stock_Fuel_Stock" Association="Self.FK_Fuel_Stock_Fuel_Stock">
+            <End Role="tblStockMovementType" EntitySet="tblStockMovementType" />
+            <End Role="tblFuelStock" EntitySet="tblFuelStock" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="cammsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="cammsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblStockMovementTypes" EntityType="cammsModel.tblStockMovementType" />
+          <EntitySet Name="tblFuels" EntityType="cammsModel.tblFuel" />
+          <EntitySet Name="tblFuelStocks" EntityType="cammsModel.tblFuelStock" />
+          <EntitySet Name="tblFuelUnits" EntityType="cammsModel.tblFuelUnit" />
+          <AssociationSet Name="FK_Fuel_Stock_Fuel_Stock" Association="cammsModel.FK_Fuel_Stock_Fuel_Stock">
+            <End Role="tblStockMovementType" EntitySet="tblStockMovementTypes" />
+            <End Role="tblFuelStock" EntitySet="tblFuelStocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fuel_FuelUnits" Association="cammsModel.FK_Fuel_FuelUnits">
+            <End Role="tblFuelUnit" EntitySet="tblFuelUnits" />
+            <End Role="tblFuel" EntitySet="tblFuels" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="tblStockMovementType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="Boolean" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblFuelStocks" Relationship="cammsModel.FK_Fuel_Stock_Fuel_Stock" FromRole="tblStockMovementType" ToRole="tblFuelStock" />
+        </EntityType>
+        <EntityType Name="tblFuel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SuplierID" Type="Int32" Nullable="false" />
+          <Property Name="UnitID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CostPerUnit" Type="Single" Nullable="false" />
+          <Property Name="StockControlled" Type="Boolean" Nullable="false" />
+          <Property Name="ActualStock" Type="Int32" Nullable="false" />
+          <Property Name="OrderedStock" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblFuelUnit" Relationship="cammsModel.FK_Fuel_FuelUnits" FromRole="tblFuel" ToRole="tblFuelUnit" />
+        </EntityType>
+        <EntityType Name="tblFuelStock">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FuelID" Type="Int32" Nullable="false" />
+          <Property Name="MoveID" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="UnitValue" Type="Single" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MovementDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="tblStockMovementType" Relationship="cammsModel.FK_Fuel_Stock_Fuel_Stock" FromRole="tblFuelStock" ToRole="tblStockMovementType" />
+        </EntityType>
+        <EntityType Name="tblFuelUnit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblFuels" Relationship="cammsModel.FK_Fuel_FuelUnits" FromRole="tblFuelUnit" ToRole="tblFuel" />
+        </EntityType>
+        <Association Name="FK_Fuel_Stock_Fuel_Stock">
+          <End Type="cammsModel.tblStockMovementType" Role="tblStockMovementType" Multiplicity="1" />
+          <End Type="cammsModel.tblFuelStock" Role="tblFuelStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblStockMovementType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblFuelStock">
+              <PropertyRef Name="MoveID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fuel_FuelUnits">
+          <End Type="cammsModel.tblFuelUnit" Role="tblFuelUnit" Multiplicity="1" />
+          <End Type="cammsModel.tblFuel" Role="tblFuel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblFuelUnit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblFuel">
+              <PropertyRef Name="UnitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="cammsModelStoreContainer" CdmEntityContainer="cammsEntities">
+          <EntitySetMapping Name="tblStockMovementTypes">
+            <EntityTypeMapping TypeName="cammsModel.tblStockMovementType">
+              <MappingFragment StoreEntitySet="tblStockMovementType">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblFuels">
+            <EntityTypeMapping TypeName="cammsModel.tblFuel">
+              <MappingFragment StoreEntitySet="tblFuel">
+                <ScalarProperty Name="OrderedStock" ColumnName="OrderedStock" />
+                <ScalarProperty Name="ActualStock" ColumnName="ActualStock" />
+                <ScalarProperty Name="StockControlled" ColumnName="StockControlled" />
+                <ScalarProperty Name="CostPerUnit" ColumnName="CostPerUnit" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UnitID" ColumnName="UnitID" />
+                <ScalarProperty Name="SuplierID" ColumnName="SuplierID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblFuelStocks">
+            <EntityTypeMapping TypeName="cammsModel.tblFuelStock">
+              <MappingFragment StoreEntitySet="tblFuelStock">
+                <ScalarProperty Name="MovementDate" ColumnName="MovementDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UnitValue" ColumnName="UnitValue" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="MoveID" ColumnName="MoveID" />
+                <ScalarProperty Name="FuelID" ColumnName="FuelID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblFuelUnits">
+            <EntityTypeMapping TypeName="cammsModel.tblFuelUnit">
+              <MappingFragment StoreEntitySet="tblFuelUnits">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
